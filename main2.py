@@ -10,8 +10,11 @@ class Opera:
         # ocr，使用paddleocr
         self.orc = OCR.main
         self.judge = Judge(keyword)
+        self.keyword = keyword.split()
         
     def main(self, image, keyword_type):
+        if len(self.keyword) == 0:
+            return image
         # 关键字判断
         coordinate_word_list = self.orc(image)
         

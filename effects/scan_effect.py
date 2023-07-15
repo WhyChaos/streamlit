@@ -79,3 +79,24 @@ class ScanEffect:
                 draw.point((x, y), pixel)
 
         return new_image
+    
+    
+    def apply_scan_contrast_effect(self, image, factor=1):
+        # 创建对比度增强器
+        contrast_enhancer = ImageEnhance.Contrast(image)
+
+        # 增强对比度，参数大于1增强对比度，小于1降低对比度
+        contrast_factor = factor
+        new_image = contrast_enhancer.enhance(contrast_factor)
+
+        return new_image
+
+    def apply_scan_brightness_effect(self, image, factor=1):
+        # 创建亮度增强器
+        brightness_enhancer = ImageEnhance.Brightness(image)
+
+        # 增强亮度，参数大于1增强亮度，小于1降低亮度
+        brightness_factor = factor
+        new_image = brightness_enhancer.enhance(brightness_factor)
+
+        return new_image
