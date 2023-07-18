@@ -6,7 +6,7 @@ import streamlit as st
 
 
 class Opera:
-    def __init__(self, keyword):
+    def __init__(self, keyword, by_row):
         # ocr，使用paddleocr
         self.orc = OCR.main
         self.judge = Judge(keywords=keyword, by_row=False)

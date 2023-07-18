@@ -1,12 +1,10 @@
 import streamlit as st
 
-def main():
-    st.title("红色问号按钮示例")
-    
-    st.write("点击下面的红色问号按钮查看更多信息：")
-    st.markdown('123124<a href="#" style="color: red; font-size: 30px;">?</a>', unsafe_allow_html=True)
+# 创建一个开关组件
+switch_state = st.checkbox("切换状态")
 
-    # 可以在这里添加更多内容
-
-if __name__ == "__main__":
-    main()
+# 检查开关状态，并进行相应操作
+if switch_state:
+    st.write("开关已打开")
+else:
+    st.write("开关已关闭")

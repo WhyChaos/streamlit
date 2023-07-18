@@ -11,6 +11,7 @@ def screen_view(file):
     #     pass
     keyword = st.sidebar.text_input('关键字(空格隔开)', '先秦 中国')
     keyword_type = st.sidebar.selectbox('打码效果', ('马赛克', '黑'))
+    keyword_state = st.sidebar.checkbox("抹除一行")
     
     # 在右侧展示原始图片和处理后的图片
     col1, col2 = st.columns(2)
@@ -28,7 +29,7 @@ def screen_view(file):
     if file is not None:
         image = Image.open(file)
         # 处理图片=
-        opera = Opera(keyword)
+        opera = Opera(keyword, keyword_state)
         image = opera.main(image, keyword_type)
         # if background_type == '随机':
         image = effect.main(image=image)
