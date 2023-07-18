@@ -1,13 +1,12 @@
-from paddleocr import PaddleOCR, draw_ocr
-from PIL import Image
-import numpy as np
+import streamlit as st
 
-ocr = PaddleOCR(use_angle_cls=True, lang="ch")
-image = Image.open('./1.jpg')
-image_np = np.array(image)
-result = ocr.ocr(image_np, cls=True)
+def main():
+    st.title("红色问号按钮示例")
+    
+    st.write("点击下面的红色问号按钮查看更多信息：")
+    st.markdown('123124<a href="#" style="color: red; font-size: 30px;">?</a>', unsafe_allow_html=True)
 
-for idx in range(len(result)):
-    res = result[idx]
-    for line in res:
-        print(line[1][0])
+    # 可以在这里添加更多内容
+
+if __name__ == "__main__":
+    main()

@@ -12,7 +12,7 @@ def scan_view(file):
     noise_line_probability = st.sidebar.number_input(label='噪点概率(‰)', min_value=0, max_value=1000, value=1)
     if noise_line_probability > 0:
         black_noise_line_probability = st.sidebar.slider("黑噪点概率(%)", 0, 100, 50)
-    curve_effect = st.sidebar.selectbox('蜷曲效果', ('效果1', '效果2', '无'))
+    curve_effect = st.sidebar.selectbox('蜷曲效果', ('纸张弯曲1', '纸张弯曲2', '纸张平整'))
     contrast_factor = st.sidebar.slider('对比度(*10)', 1, 100, 10)
     brightness_factor = st.sidebar.slider('亮度(*10)', 1, 100, 10)
     keyword = st.sidebar.text_input('关键字(空格隔开)', '先秦 中国')
@@ -44,7 +44,7 @@ def scan_view(file):
             image = effect.apply_scan_noise_effect(image=image, probability=noise_line_probability/1000.0, black_probability=black_noise_line_probability/100.0)
         image = effect.apply_scan_brightness_effect(image=image, factor=brightness_factor/10.0)
         image = effect.apply_scan_contrast_effect(image=image, factor=contrast_factor/10.0)
-        if curve_effect != '无':
+        if curve_effect != '纸张平整':
             image = effect.apply_scan_curve_effect(image=image, type=int(curve_effect[-1]))
         col2.image(image, caption="扫描效果", use_column_width=True)
     else:
