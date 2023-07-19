@@ -5,7 +5,30 @@ from main2 import Opera
 import os
 
 
+def convert_gray(image):
+     # 获取图像的宽度和高度
+    width, height = image.size
+
+    # 创建一个新的空白图像，模式为RGB
+    black_and_white_image = Image.new("RGB", (width, height))
+
+    # 遍历图像的每个像素，并将其设置为黑白颜色
+    for x in range(width):
+        for y in range(height):
+            # 获取原图像像素的颜色
+            r, g, b = image.getpixel((x, y))
+            # 计算灰度值
+            gray = int(0.2989 * r + 0.5870 * g + 0.1140 * b)
+            # 将新图像的像素设置为灰度值
+            black_and_white_image.putpixel((x, y), (gray, gray, gray))
+
+    return black_and_white_image
+    
+    
+
+
 def scan_view(file):
+    is_gray = st.sidebar.checkbox("转为灰度(黑白)")
     scan_line_probability = st.sidebar.number_input(label='扫描线概率(%)', min_value=0, max_value=100, value=1)
     if scan_line_probability > 0:
         black_scan_line_probability = st.sidebar.slider("黑扫描线概率(%)", 0, 100, 50)
@@ -34,6 +57,9 @@ def scan_view(file):
     if file is not None:
         # file = os.path.abspath(file)
         image = Image.open(file)
+        #灰度
+        if is_gray:
+            image = convert_gray(image)
         
         # 处理图片=
         opera = Opera(keyword, keyword_state)
