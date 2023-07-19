@@ -4,11 +4,14 @@ from effects.photo_screen_effect import PhotoScreenEffect
 from main2 import Opera
 import os
 
+from utils.convert_gray import convert_gray
+from utils.download_button import download_button
  
 def photo_screen_view(file):
     # background_type = st.sidebar.selectbox('屏幕效果', ('随机', '自定义'))
     # if background_type == '自定义':
     #     pass
+    is_gray = st.sidebar.checkbox("转为灰度(黑白)")
     keyword = st.sidebar.text_input('关键字(空格隔开)', '先秦 中国')
     keyword_type = st.sidebar.selectbox('打码效果', ('马赛克', '黑'))
     keyword_state = st.sidebar.checkbox("抹除一行")
@@ -28,11 +31,15 @@ def photo_screen_view(file):
     effect = PhotoScreenEffect()
     if file is not None:
         image = Image.open(file)
+        #灰度
+        if is_gray:
+            image = convert_gray(image)
         # 处理图片=
         opera = Opera(keyword, keyword_state)
         image = opera.main(image, keyword_type)
         # if background_type == '随机':
         image = effect.main(image=image)
         col2.image(image, caption="拍照效果", use_column_width=True)
+        download_button(col2, image, "image")
     else:
         col2.info("请上传一张图片")

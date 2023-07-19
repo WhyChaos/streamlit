@@ -4,8 +4,12 @@ from effects.photo_effect import PhotoEffect
 from main2 import Opera
 import os
 
+from utils.convert_gray import convert_gray
+from utils.download_button import download_button
+
  
 def photo_view(file):
+    is_gray = st.sidebar.checkbox("转为灰度(黑白)")
     # background_type = st.sidebar.selectbox('背景图', ('随机', '自定义'))
     # if background_type == '自定义':
     #     pass
@@ -29,10 +33,15 @@ def photo_view(file):
     if file is not None:
         image = Image.open(file)
         # 处理图片=
+        #灰度
+        if is_gray:
+            image = convert_gray(image)
+            
         opera = Opera(keyword, keyword_state)
         image = opera.main(image, keyword_type)
         # if background_type == '随机':
         image = effect.main(image=image)
         col2.image(image, caption="拍照效果", use_column_width=True)
+        download_button(col2, image, "image")
     else:
         col2.info("请上传一张图片")
