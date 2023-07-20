@@ -2,10 +2,10 @@ import streamlit as st
 from PIL import Image, ImageEnhance
 from main2 import Opera
 import os
-from scan_view import scan_view
-from photo_view import photo_view
-from photo_screen_view import photo_screen_view
-from screen_view import screen_view
+from views.scan_view import scan_view
+from views.photo_view import photo_view
+from views.photo_screen_view import photo_screen_view
+from views.screen_view import screen_view
 
 def main():
     # 设置页面标题

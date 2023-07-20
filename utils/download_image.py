@@ -1,6 +1,6 @@
 import io
 
-def download_button(col, image, filename):
+def download_image(col, image, filename):
     # Create a streamlit button with a download link for the image
     buffered = io.BytesIO()
     image.save(buffered, format="PNG")

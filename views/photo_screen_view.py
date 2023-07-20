@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../')
+
 import streamlit as st
 from PIL import Image, ImageEnhance
 from effects.photo_screen_effect import PhotoScreenEffect
@@ -5,7 +8,8 @@ from main2 import Opera
 import os
 
 from utils.convert_gray import convert_gray
-from utils.download_button import download_button
+from utils.download_image import download_image
+from utils.download_json import download_json
  
 def photo_screen_view(file):
     # background_type = st.sidebar.selectbox('屏幕效果', ('随机', '自定义'))
@@ -40,6 +44,14 @@ def photo_screen_view(file):
         # if background_type == '随机':
         image = effect.main(image=image)
         col2.image(image, caption="拍照效果", use_column_width=True)
-        download_button(col2, image, "image")
+        download_image(col2, image, "image")
+        json_data = {
+            "option": "拍照（屏幕)",
+            "is_gray": is_gray,
+            "keyword": keyword,
+            "keyword_type": keyword_type,
+            "keyword_state": keyword_state,
+        }
+        download_json(col2, json_data, 'data.json')
     else:
         col2.info("请上传一张图片")
