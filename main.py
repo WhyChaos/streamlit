@@ -6,6 +6,7 @@ from views.scan_view import scan_view
 from views.photo_view import photo_view
 from views.photo_screen_view import photo_screen_view
 from views.screen_view import screen_view
+from views.json_view import json_view
 
 def main():
     # 设置页面标题
@@ -16,7 +17,7 @@ def main():
     file = st.sidebar.file_uploader("上传图片", type=["jpg", "jpeg", "png"])
     option = st.sidebar.selectbox(
         '效果选择',
-        ('扫描', '拍照', '拍照（屏幕)', '屏幕'))
+        ('扫描', '拍照', '拍照（屏幕)', '屏幕', '上传json'))
 
     if option == '扫描':
         scan_view(file)
@@ -26,6 +27,8 @@ def main():
         photo_screen_view(file)
     elif option == '屏幕':
         screen_view(file)
+    elif option == '上传json':
+        json_view(file)
 
 
 

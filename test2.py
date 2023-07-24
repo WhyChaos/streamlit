@@ -1,32 +1,25 @@
 import streamlit as st
-import json
-
-def download_json(json_data, filename):
-    # Convert the JSON data to a string
-    json_str = json.dumps(json_data, indent=4)
-
-    # Create a button to download the JSON file
-    with open(filename, 'w') as f:
-        f.write(json_str)
-
-    st.download_button(
-        label="Click to Download JSON",
-        data=json_str,
-        file_name=filename,
-        mime='application/json'
-    )
 
 def main():
-    st.title("Download JSON File")
+    st.title("Streamlit Popup Alert Example")
 
-    # Sample JSON data (you can replace this with your own data)
-    json_data = {
-        "name": "John Doe",
-        "age": 30,
-        "email": "john@example.com"
-    }
+    st.write("Click the buttons below to trigger different types of popup alerts:")
 
-    download_json(json_data, 'data.json')
+    # 弹出警告
+    if st.button("Show Warning"):
+        st.warning("This is a warning message!")
+
+    # 弹出错误
+    if st.button("Show Error"):
+        st.error("This is an error message!")
+
+    # 弹出信息
+    if st.button("Show Info"):
+        st.info("This is an informational message!")
+
+    # 弹出成功
+    if st.button("Show Success"):
+        st.success("This is a success message!")
 
 if __name__ == "__main__":
     main()
