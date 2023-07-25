@@ -15,7 +15,12 @@ def screen_view(file):
     # if background_type == '自定义':
     #     pass
     is_gray = st.sidebar.checkbox("转为灰度(黑白)")
-    keyword = st.sidebar.text_input('关键字(空格隔开)', '先秦 中国')
+    
+    moier_weight = st.sidebar.slider("摩尔纹权重", 0.0, 1.0, 0.5)
+    moier_type = st.sidebar.selectbox('摩尔纹样式', ('样式1', '样式2', '样式3'))
+    light_weight = st.sidebar.slider("亮度增益", 0, 100, 0)
+    
+    keyword = st.sidebar.text_input('关键字(空格隔开)', '')
     keyword_type = st.sidebar.selectbox('打码效果', ('马赛克', '黑'))
     keyword_state = st.sidebar.checkbox("抹除一行")
     
@@ -41,7 +46,7 @@ def screen_view(file):
         opera = Opera(keyword, keyword_state)
         image = opera.main(image, keyword_type)
         # if background_type == '随机':
-        image = effect.main(image=image)
+        image = effect.main(image, moier_weight, moier_type, light_weight)
         col2.image(image, caption="拍照效果", use_column_width=True)
         download_image(col2, image, "image")
         json_data = {
@@ -50,6 +55,9 @@ def screen_view(file):
             "keyword": keyword,
             "keyword_type": keyword_type,
             "keyword_state": keyword_state,
+            "moier_weight": moier_weight,
+            "moier_type": moier_type,
+            "light_weight": light_weight,
         }
         download_json(col2, json_data, 'data.json')
     else:

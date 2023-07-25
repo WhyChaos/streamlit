@@ -29,7 +29,7 @@ def scan_view(file):
     else:
         black_noise_probability = 0
     curve_effect = st.sidebar.selectbox('蜷曲效果', ('纸张弯曲1', '纸张弯曲2', '纸张平整'))
-    keyword = st.sidebar.text_input('关键字(空格隔开)', '先秦 中国')
+    keyword = st.sidebar.text_input('关键字(空格隔开)', '')
     keyword_type = st.sidebar.selectbox('打码效果', ('马赛克', '黑'))
     keyword_state = st.sidebar.checkbox("抹除一行")
     

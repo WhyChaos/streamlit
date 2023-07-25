@@ -51,7 +51,7 @@ def screen_effect_operate(data_json, image):
         image = convert_gray(image)
     # if background_type == '随机':
     effect = ScreenEffect()
-    image = effect.main(image=image)
+    image = effect.main(image, data_json['moier_weight'], data_json['moier_type'], data_json['light_weight'])
     return image
 
 def photo_effect_operate(data_json, image):

@@ -16,7 +16,7 @@ def photo_screen_view(file):
     # if background_type == '自定义':
     #     pass
     is_gray = st.sidebar.checkbox("转为灰度(黑白)")
-    keyword = st.sidebar.text_input('关键字(空格隔开)', '先秦 中国')
+    keyword = st.sidebar.text_input('关键字(空格隔开)', '')
     keyword_type = st.sidebar.selectbox('打码效果', ('马赛克', '黑'))
     keyword_state = st.sidebar.checkbox("抹除一行")
     
