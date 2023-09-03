@@ -9,7 +9,7 @@ class Opera:
     def __init__(self, keyword, by_row):
         # ocr，使用paddleocr
         self.orc = OCR.main
-        self.judge = Judge(keywords=keyword, by_row=False)
+        self.judge = Judge(keywords=keyword, by_row=by_row)
         self.keyword = keyword.split()
         
     def main(self, image, keyword_type):

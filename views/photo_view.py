@@ -48,7 +48,7 @@ def photo_view(file):
     col2.subheader("拍照效果")
     
     effect = PhotoEffect()
-    if file!=None and (background_file!=None or background_type!='自定义'):
+    if file!=None and (background_type=='随机' or background_file!=None):
         image = Image.open(file)
         # 处理图片=
         #灰度
