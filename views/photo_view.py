@@ -10,6 +10,8 @@ import os
 from utils.convert_gray import convert_gray
 from utils.download_image import download_image
 from utils.download_json import download_json
+
+from utils.detect_a4_corners import detect_a4_corners
  
 def photo_view(file):
     is_gray = st.sidebar.checkbox("转为灰度(黑白)")
@@ -17,18 +19,32 @@ def photo_view(file):
     if background_type == '自定义':
         background_file = st.sidebar.file_uploader("上传背景图", type=["jpg", "jpeg", "png"])
         if background_file is not None:
+            
             background_image = Image.open(background_file)
             sidebar_col1, sidebar_col2 = st.sidebar.columns(2)
             width, height = background_image.size
             coordinate = {}
-            coordinate['x1'] = sidebar_col1.slider("左上(x坐标)", 0, width, 0)
-            coordinate['y1'] = sidebar_col2.slider("左上(y坐标)", 0, height, 0)
-            coordinate['x2'] = sidebar_col1.slider("右上(x坐标)", 0, width*2, width)
-            coordinate['y2'] = sidebar_col2.slider("右上(y坐标)", 0, height, 0)
-            coordinate['x3'] = sidebar_col1.slider("右下(x坐标)", 0, width*2, width)
-            coordinate['y3'] = sidebar_col2.slider("右下(y坐标)", 0, height*2, height)
-            coordinate['x4'] = sidebar_col1.slider("左下(x坐标)", 0, width, 0)
-            coordinate['y4'] = sidebar_col2.slider("左下(y坐标)", 0, height*2, height)
+            
+            corners = detect_a4_corners(background_image)
+            
+            if corners:
+                coordinate['x1'] = sidebar_col1.slider("左上(x坐标)", 0, width, corners[0][0])
+                coordinate['y1'] = sidebar_col2.slider("左上(y坐标)", 0, height, corners[0][1])
+                coordinate['x2'] = sidebar_col1.slider("右上(x坐标)", 0, width*2, corners[1][0])
+                coordinate['y2'] = sidebar_col2.slider("右上(y坐标)", 0, height, corners[1][1])
+                coordinate['x3'] = sidebar_col1.slider("右下(x坐标)", 0, width*2, corners[2][0])
+                coordinate['y3'] = sidebar_col2.slider("右下(y坐标)", 0, height*2, corners[2][1])
+                coordinate['x4'] = sidebar_col1.slider("左下(x坐标)", 0, width, corners[3][0])
+                coordinate['y4'] = sidebar_col2.slider("左下(y坐标)", 0, height*2, corners[3][1])
+            else:
+                coordinate['x1'] = sidebar_col1.slider("左上(x坐标)", 0, width, 0)
+                coordinate['y1'] = sidebar_col2.slider("左上(y坐标)", 0, height, 0)
+                coordinate['x2'] = sidebar_col1.slider("右上(x坐标)", 0, width*2, width)
+                coordinate['y2'] = sidebar_col2.slider("右上(y坐标)", 0, height, 0)
+                coordinate['x3'] = sidebar_col1.slider("右下(x坐标)", 0, width*2, width)
+                coordinate['y3'] = sidebar_col2.slider("右下(y坐标)", 0, height*2, height)
+                coordinate['x4'] = sidebar_col1.slider("左下(x坐标)", 0, width, 0)
+                coordinate['y4'] = sidebar_col2.slider("左下(y坐标)", 0, height*2, height)
         
         
     keyword = st.sidebar.text_input('关键字(空格隔开)', '')
