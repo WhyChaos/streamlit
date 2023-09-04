@@ -21,7 +21,7 @@ def main():
         '效果选择',
         ('扫描1', '扫描2', '拍照', '拍照（屏幕)', '屏幕','上传json', 'test'))
 
-    if option == '扫描':
+    if option == '扫描1':
         scan_view(file)
     elif option == '拍照':
         photo_view(file)

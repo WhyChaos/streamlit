@@ -20,7 +20,9 @@ def genalog_view(file):
     expander_col1, expander_col2 = expander.columns(2)
     select_blur = expander_col1.checkbox('blur', help='当扫描仪无法正确聚焦于文档时出现的效果，导致文档看起来有雾/模糊。')
     # select_bleed_through = expander_col2.checkbox('bleed_through', help='此效果试图模仿墨水从打印页面的一侧渗透到另一侧的情况。')
-    select_morphology = expander_col1.checkbox('morphology', help='Dynamic 使用给定的参数调用不同的形态操作（“open”、“close”、“dilate”和“erode”）')
+    select_morphology = expander_col2.checkbox('morphology', help='Dynamic 使用给定的参数调用不同的形态操作（“open”、“close”、“dilate”和“erode”）')
+    select_pepper = expander_col1.checkbox('pepper', help='在 src 图像上随机散布暗像素。')
+    select_salt = expander_col2.checkbox('salt', help='在 src 图像上随机散布白色像素')
     
     degradations = [
     ]
@@ -61,7 +63,15 @@ def genalog_view(file):
             help='内核类型。 （“ones”、“upper_triangle”、“lower_triangle”、“x”、“plus”、“ellipse”）默认为“ones”。'
         )
         degradations.append(("morphology", {"operation": morphology_operation, "kernel_shape":(contmorphology_rows,contmorphology_cols), "kernel_type":morphology_kernel_type}),)
-        
+    if select_pepper:
+        pepper_params = st.sidebar.expander('pepper参数')
+        pepper_amount  = pepper_params.number_input(label='pepper_amount', min_value=0.0, max_value=1.0, value=0.05, help='应用效果的范围 [0, 1] 中的像素比例。 默认为 0.05。')
+        degradations.append(("pepper", {"amount": pepper_amount}))
+    if select_salt:
+        salt_params = st.sidebar.expander('salt参数')
+        salt_amount  = salt_params.number_input(label='salt_amount', min_value=0.0, max_value=1.0, value=0.05, help='应用效果的范围 [0, 1] 中的像素比例。 默认为 0.05。')
+        degradations.append(("salt", {"amount": salt_amount}))
+    
     
         
     keyword = st.sidebar.text_input('关键字(空格隔开)', '')
