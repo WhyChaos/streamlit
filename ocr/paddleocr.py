@@ -8,7 +8,12 @@ class OCR:
     @staticmethod
     def main(image):
         image_np = np.array(image)
-        ocr = PaddleOCR(use_angle_cls=True, lang="ch")
+        # ocr = PaddleOCR(use_angle_cls=True, lang="ch")
+        ocr = PaddleOCR(use_angle_cls=True,lang="ch",
+            rec_model_dir='./models/ch_PP-OCRv3_rec_slim_infer/',
+            cls_model_dir='./models/ch_ppocr_mobile_v2.0_cls_slim_infer/',
+            det_model_dir='./models/ch_PP-OCRv3_det_slim_infer/')
+
         result = ocr.ocr(image_np, cls=True)
 
         coordinate_word_list = []

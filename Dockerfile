@@ -12,8 +12,7 @@ COPY . /app
 
 # 安装应用程序依赖
 RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-RUN pip install genalog
-
+RUN pip install genalog -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 # 暴露应用程序的端口
 EXPOSE 8000
