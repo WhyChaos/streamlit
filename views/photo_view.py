@@ -17,34 +17,10 @@ def photo_view(file):
     is_gray = st.sidebar.checkbox("转为灰度(黑白)")
     background_type = st.sidebar.selectbox('背景图', ('随机', '自定义'))
     if background_type == '自定义':
+        # is_detect_a4_corners = st.sidebar.checkbox("检测A4角")
         background_file = st.sidebar.file_uploader("上传背景图", type=["jpg", "jpeg", "png"])
         if background_file is not None:
-            
             background_image = Image.open(background_file)
-            sidebar_col1, sidebar_col2 = st.sidebar.columns(2)
-            width, height = background_image.size
-            coordinate = {}
-            
-            corners = detect_a4_corners(background_image)
-            
-            if corners:
-                coordinate['x1'] = sidebar_col1.slider("左上(x坐标)", 0, width, corners[0][0])
-                coordinate['y1'] = sidebar_col2.slider("左上(y坐标)", 0, height, corners[0][1])
-                coordinate['x2'] = sidebar_col1.slider("右上(x坐标)", 0, width*2, corners[1][0])
-                coordinate['y2'] = sidebar_col2.slider("右上(y坐标)", 0, height, corners[1][1])
-                coordinate['x3'] = sidebar_col1.slider("右下(x坐标)", 0, width*2, corners[2][0])
-                coordinate['y3'] = sidebar_col2.slider("右下(y坐标)", 0, height*2, corners[2][1])
-                coordinate['x4'] = sidebar_col1.slider("左下(x坐标)", 0, width, corners[3][0])
-                coordinate['y4'] = sidebar_col2.slider("左下(y坐标)", 0, height*2, corners[3][1])
-            else:
-                coordinate['x1'] = sidebar_col1.slider("左上(x坐标)", 0, width, 0)
-                coordinate['y1'] = sidebar_col2.slider("左上(y坐标)", 0, height, 0)
-                coordinate['x2'] = sidebar_col1.slider("右上(x坐标)", 0, width*2, width)
-                coordinate['y2'] = sidebar_col2.slider("右上(y坐标)", 0, height, 0)
-                coordinate['x3'] = sidebar_col1.slider("右下(x坐标)", 0, width*2, width)
-                coordinate['y3'] = sidebar_col2.slider("右下(y坐标)", 0, height*2, height)
-                coordinate['x4'] = sidebar_col1.slider("左下(x坐标)", 0, width, 0)
-                coordinate['y4'] = sidebar_col2.slider("左下(y坐标)", 0, height*2, height)
         
         
     keyword = st.sidebar.text_input('关键字(空格隔开)', '')
@@ -76,7 +52,11 @@ def photo_view(file):
         if background_type == '随机':
             image = effect.main(image=image)
         elif background_type == '自定义':
-            image = effect.main2(image=image, background_file=background_file, coordinate=coordinate, background_image=background_image)
+            cut_columns = st.sidebar.columns(2)
+            cut_x = cut_columns[0].number_input(label='x', min_value=1, max_value=10, value=1, step=1, help='横轴方向切分为几块')
+            cut_y = cut_columns[1].number_input(label='y', min_value=1, max_value=10, value=1, step=1, help='横轴方向切分为几块')
+            image = effect.main2(int(cut_x), int(cut_y), image=image, background_file=background_file, background_image=background_image)
+        
         col2.image(image, caption="拍照效果", use_column_width=True)
         download_image(col2, image, "image")
         if background_type!='自定义':

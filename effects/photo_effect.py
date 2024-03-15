@@ -3,6 +3,12 @@ import cv2
 import numpy as np
 from PIL import Image
 import random
+import json
+from functools import lru_cache
+import sys
+sys.path.append('../')
+
+from utils.slicing_projection import slicing_projection
 
 
 class PhotoEffect:
@@ -83,7 +89,7 @@ class PhotoEffect:
 
         return result
     
-    def main2(self, image, background_file, coordinate, background_image):
+    def main2(self, cut_x, cut_y, image, background_file, background_image):
         # 将Pillow的Image对象转换为NumPy数组
         image_array = np.array(image)
         # # 将NumPy数组从RGB模式转换为BGR模式
@@ -97,25 +103,16 @@ class PhotoEffect:
         # background = cv2.imdecode(np.fromstring(background_file.read(), np.uint8), 1)
         background = np.array(background_image)
         background = cv2.cvtColor(background, cv2.COLOR_BGR2RGB)
+        
+        ref_mask = self.get_lang_sam_api(json.dumps(background.tolist()))
+        
+        
+        
+        result = slicing_projection(cut_x, cut_y, json.dumps(image.tolist()), json.dumps(background.tolist()), json.dumps(ref_mask.tolist()))
+        
+        
 
-        # 定义透视变换的四个点
-        pts1 = np.float32([[0, 0], [image.shape[1], 0], [
-            image.shape[1], image.shape[0]], [0, image.shape[0]]])
-        # 定义目标图像的四个点
-        pts2 = np.float32([[coordinate['x1'], coordinate['y1']],
-                           [coordinate['x2'], coordinate['y2']],
-                           [coordinate['x3'], coordinate['y3']],
-                           [coordinate['x4'], coordinate['y4']]])
-
-        # 计算透视变换矩阵
-        M = cv2.getPerspectiveTransform(pts1, pts2)
-
-        # 执行透视变换
-        transformed_image = cv2.warpPerspective(
-            image, M, (background.shape[1], background.shape[0]), borderMode=cv2.BORDER_CONSTANT, borderValue=(255, 255, 255))
-
-        # 将背景图像与透视变换后的图像相结合
-        result = cv2.bitwise_and(background, transformed_image)
+        
 
         # 将OpenCV图像对象转换为RGB模式
         rgb_image = cv2.cvtColor(result, cv2.COLOR_BGR2RGB)
@@ -123,3 +120,10 @@ class PhotoEffect:
         result = Image.fromarray(rgb_image)
 
         return result
+
+    @lru_cache(maxsize=100)
+    def get_lang_sam_api(self, background):
+        background = cv2.convertScaleAbs(np.array(json.loads(background)))
+        ref_mask = cv2.imread('tmp/mask/mask_background21.png', cv2.IMREAD_GRAYSCALE)
+        return ref_mask
+        
