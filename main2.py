@@ -2,8 +2,6 @@ from ocr.paddleocr import OCR
 from erase.index import erase
 from judge.index import Judge
 from erase.index import erase
-import streamlit as st
-
 
 class Opera:
     def __init__(self, keyword, by_row):

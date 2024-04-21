@@ -1,19 +1,7 @@
-from augraphy import *
-import cv2
-import random
+from PIL import Image, ImageDraw
 
-ink_phase = [BindingsAndFasteners()]
+# 打开图片
+image = Image.open('/home/hc/streamlit/augraphy_cache/image_0.png')
+image = image.rotate(angle=340, expand=False)
 
-paper_phase = []
-
-post_phase = []
-
-
-pipeline = AugraphyPipeline(ink_phase=ink_phase, paper_phase=paper_phase, post_phase=post_phase)
-
-
-image = cv2.imread("4.jpg")
-
-augmented = pipeline(image)
-
-cv2.imwrite("tmp.png",augmented)
+image.save('output.jpg')

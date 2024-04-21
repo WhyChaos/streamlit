@@ -1,5 +1,5 @@
 ```
-streamlit run main.py --server.port 8000
+streamlit run main.py --server.port 8000 --server.baseUrlPath /pic
 ```
 ```
 pip install -r requirements.txt

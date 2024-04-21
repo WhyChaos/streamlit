@@ -100,3 +100,14 @@ class ScanEffect:
         new_image = brightness_enhancer.enhance(brightness_factor)
 
         return new_image
+    
+    def apply_color_enhance(self, image, factor=1):
+        brightness_enhancer = ImageEnhance.Color(image)
+        new_image = brightness_enhancer.enhance(factor)
+
+        return new_image
+    
+    def apply_sharpness_enhance(self, image, factor=1):
+        sharpness_enhancer = ImageEnhance.Sharpness(image)
+        new_image = sharpness_enhancer.enhance(factor)
+        return new_image
