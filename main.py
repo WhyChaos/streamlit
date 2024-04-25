@@ -7,7 +7,6 @@ from views.photo_view import photo_view
 from views.photo_screen_view import photo_screen_view
 from views.screen_view import screen_view
 from views.json_view import json_view
-from views.genalog_view import genalog_view
 from views.test_view import test_view
 from views.background_view import background_view
 from views.augraphy_view import augraphy_view
@@ -37,8 +36,6 @@ def main():
         screen_view(file)
     elif option == '上传json':
         json_view(file)
-    elif option == '扫描2':
-        genalog_view(file)
     elif option == 'test':
         test_view(file)
     elif option == '添加背景':

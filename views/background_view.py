@@ -14,7 +14,6 @@ from utils.download_json import download_json
 
 from utils.detect_a4_corners import detect_a4_corners
 
-from genalog.degradation.degrader import Degrader, ImageState
 from utils.pillow_convert_opencv import pillow_to_opencv, opencv_to_pillow
  
 def background_view(file):
